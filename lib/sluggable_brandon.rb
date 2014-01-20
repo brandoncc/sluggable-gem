@@ -2,24 +2,11 @@ module SluggableBrandon
   extend ActiveSupport::Concern
 
   included do
-    if self.to_s == 'Post'
-      after_create :generate_slug
-    else
-      before_save :generate_slug
-    end
+    class_attribute :slug_column
   end
 
-  def generate_slug
-    attribute = case self.class.to_s
-                when 'Category' then
-                  self.name
-                when 'Post' then
-                  self.title
-                when 'User' then
-                  self.username
-                else
-                  nil
-                end
+  def generate_slug!
+    attribute = self.send(self.class.slug_column.to_sym)
 
     unless attribute.nil?
       potential_slug = attribute.downcase.gsub(/\s+/, '-').gsub(/[^A-Za-z0-9-]/, '')
@@ -37,14 +24,16 @@ module SluggableBrandon
       end
 
       self.slug = potential_slug
-
-      if self.class.to_s == 'Post'
-        self.save
-      end
     end
   end
 
   def to_param
     self.slug
+  end
+
+  module ClassMethods
+    def sluggable_column(column_name)
+      self.slug_column = column_name
+    end
   end
 end
