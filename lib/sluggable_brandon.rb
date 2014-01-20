@@ -9,7 +9,7 @@ module SluggableBrandon
     attribute = self.send(self.class.slug_column.to_sym)
 
     unless attribute.nil?
-      potential_slug = attribute.downcase.gsub(/\s+/, '-').gsub(/[^A-Za-z0-9-]/, '')
+      potential_slug = to_slug(attribute)
 
       index = 1
 
@@ -25,6 +25,10 @@ module SluggableBrandon
 
       self.slug = potential_slug
     end
+  end
+
+  def to_slug(str)
+    str.downcase.gsub(/\s+/, '-').gsub(/[^A-Za-z0-9-]/, '')
   end
 
   def to_param
