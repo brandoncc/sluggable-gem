@@ -13,7 +13,7 @@ module SluggableBrandon
 
       index = 1
 
-      until self.class.find_by(slug: potential_slug).nil?
+      until self.class.find_by(slug: potential_slug).nil? || potential_slug == self.slug
         if index == 1
           potential_slug += "-#{index}"
         else
