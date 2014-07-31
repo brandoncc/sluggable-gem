@@ -30,6 +30,14 @@ or
       self.save
     end
     ```
+    
+5. If you have any class specific validations that will determine whether the slug exists or not, you can override the `slug_exists?` instance method in your class. This is the `slug_exists?` that is provided with the gem:
+
+    ```ruby
+    def slug_exists?(slug)
+      self.class.find_by(slug: slug).nil?
+    end
+    ```
 
 ##Slug style
 All characters except A-Z, a-z, 0-9 and dashes are removed. Multiple consecutive whitespaces are condensed to one. Spaces are then replaced with dashes. If there is already an existing slug in the current database that matches the generated slug, '-#' is appended to the slug. # represents the first nontaken slug, starting with 1.
