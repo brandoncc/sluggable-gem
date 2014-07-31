@@ -10,12 +10,14 @@ This project was built as an assignment from my Tealeaf Academy course.
     ```ruby
     gem 'sluggable_brandon'
     ```
-3. Call the `sluggable_column` method in your model. Pass the method a symbol of the attribute that you want to use to build the slug.
+    
+3. Include `SluggableBrandon` in your class.
+4. Call the `sluggable_column` method in your model. Pass the method a symbol of the attribute that you want to use to build the slug.
 
     ```ruby
     sluggable_column :username # build slug using the string from the username column
     ```
-4. Call `generate_slug!` using an ActiveRecord callback. If you use `after_commit`, `after_save` or `after_commit` (basically, any callback that is called after the object is saved), you need to override the `generate_slug!` method, calling `self.save`. If you use `after_create`, the slug will only be created once, and will not reflect object updates. Other callbacks will regenerate the slug everytime the object is saved.
+5. Call `generate_slug!` using an ActiveRecord callback. If you use `after_commit`, `after_save` or `after_commit` (basically, any callback that is called after the object is saved), you need to override the `generate_slug!` method, calling `self.save`. If you use `after_create`, the slug will only be created once, and will not reflect object updates. Other callbacks will regenerate the slug everytime the object is saved.
 
     ```ruby
     before_save :generate_slug!
@@ -31,7 +33,7 @@ or
     end
     ```
     
-5. If you have any class specific validations that will determine whether the slug exists or not, you can override the `slug_exists?` instance method in your class. This is the `slug_exists?` that is provided with the gem:
+6. If you have any class specific validations that will determine whether the slug exists or not, you can override the `slug_exists?` instance method in your class. This is the `slug_exists?` that is provided with the gem:
 
     ```ruby
     def slug_exists?(slug)
