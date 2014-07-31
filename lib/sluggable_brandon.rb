@@ -5,6 +5,10 @@ module SluggableBrandon
     class_attribute :slug_column
   end
 
+  def slug_exists?(slug)
+    self.class.find_by(slug: slug).nil?
+  end
+
   def generate_slug!
     attribute = self.send(self.class.slug_column.to_sym)
 
@@ -13,7 +17,7 @@ module SluggableBrandon
 
       index = 1
 
-      until self.class.find_by(slug: potential_slug).nil? || potential_slug == self.slug
+      until slug_exists?(potential_slug) || potential_slug == self.slug
         if index == 1
           potential_slug += "-#{index}"
         else
@@ -28,7 +32,7 @@ module SluggableBrandon
   end
 
   def to_slug(str)
-    str.downcase.gsub(/\s+/, '-').gsub(/[^A-Za-z0-9-]/, '')
+    str.downcase.gsub(/\s+/, '-').gsub(/[^A-Za-z0-9-]+/, '').gsub(/-+/, '-')
   end
 
   def to_param

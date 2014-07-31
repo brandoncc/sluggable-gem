@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'sluggable_brandon'
-  s.version     = '0.0.3'
+  s.version     = '0.0.5'
   s.summary     = 'This gem adds slugging to your project.'
   s.description = ' A slug column is required on any models using this gem.'
   s.authors     = ['Brandon Conway']
