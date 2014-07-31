@@ -19,14 +19,14 @@ before_save :generate_slug!
 ```
 or
 
-	```ruby
-	after_create :generate_slug!
+```ruby
+after_create :generate_slug!
 
-	def generate_slug!
-	  super
-	  self.save
-	end
-	```
+def generate_slug!
+  super
+  self.save
+end
+```
 
 ##Slug style
 All characters except A-Z, a-z, 0-9 and dashes are removed. Multiple consecutive whitespaces are condensed to one. Spaces are then replaced with dashes. If there is already an existing slug in the current database that matches the generated slug, '-#' is appended to the slug. # represents the first nontaken slug, starting with 1.
